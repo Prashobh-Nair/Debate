@@ -7,8 +7,10 @@ export default async function handler(req, res) {
   try {
     const { subject, difficulty } = req.body;
 
+    const randomSeed = Math.floor(Math.random() * 1000000);
     const prompt = `
-Generate a debate topic on ${subject} with ${difficulty} difficulty.
+Generate a unique and interesting debate topic on ${subject} with ${difficulty} difficulty (Random Seed: ${randomSeed}).
+Ensure the topic is strictly different from commonly generated ones and provides a fresh perspective.
 
 Provide:
 - 3 points FOR
@@ -30,6 +32,9 @@ Return strictly in JSON format like this:
       },
       body: JSON.stringify({
         model: "arcee-ai/trinity-large-preview:free",
+        temperature: 0.9,
+        presence_penalty: 0.5,
+        frequency_penalty: 0.5,
         messages: [
           {
             role: "user",
